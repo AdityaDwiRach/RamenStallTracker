@@ -53,7 +53,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, IMapActivityView {
             val indonesiaLatLng = LatLng(-2.272836, 114.184949)
             mMap.moveCamera(CameraUpdateFactory.newLatLng(indonesiaLatLng))
             mMap.animateCamera(CameraUpdateFactory.zoomTo(4.5f))
-            mMap.setOnMapLongClickListener {
+            mMap.setOnMapClickListener {
 
                 val markerOptions = MarkerOptions()
                 markerOptions.position(it)

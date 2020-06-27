@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.adr.ramenstalltracker.R
 import com.adr.ramenstalltracker.model.MockUpLocationData
+import com.adr.ramenstalltracker.view.MainActivity
 import com.adr.ramenstalltracker.view.MainActivity.Companion.EXTRA_DATA
 import com.adr.ramenstalltracker.view.MapActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_rv_main.view.*
 
 class RVAdapterMain: RecyclerView.Adapter<RVAdapterMain.ViewHolder>(), IRVAdapterMainModel, IRVAdapterMainView {
@@ -55,6 +58,22 @@ class RVAdapterMain: RecyclerView.Adapter<RVAdapterMain.ViewHolder>(), IRVAdapte
     override fun removeFromList(position: Int) {
         listData.removeAt(position)
         notifyDataSetChanged()
+
+        if (context != null) {
+            onSaveMockupData(context!!, this.listData)
+        }
+    }
+
+    override fun onSaveMockupData(
+        context: Context,
+        listData: ArrayList<MockUpLocationData.StallData>
+    ) {
+        val shared = context.getSharedPreferences(MainActivity.SHARED_DATA, AppCompatActivity.MODE_PRIVATE)
+        val editor = shared.edit()
+        val gson = Gson()
+        val json = gson.toJson(listData)
+        editor.putString(MainActivity.MOCKUP_DATA, json)
+        editor.apply()
     }
 
     override fun refreshData() {

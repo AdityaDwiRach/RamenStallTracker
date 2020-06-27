@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity(), IMainActivityView {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
                 rvAdapter.removeFromList(viewHolder.adapterPosition)
                 Toast.makeText(applicationContext, "Item Deleted", Toast.LENGTH_SHORT).show()
             }

@@ -32,7 +32,7 @@ class MapActivityPresenter(private val iMapActivityView: IMapActivityView): IMap
         val shared = context.getSharedPreferences(MainActivity.SHARED_DATA, AppCompatActivity.MODE_PRIVATE)
         val gson = Gson()
         val json = shared.getString(MainActivity.MOCKUP_DATA, null)
-        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+        val type: Type = object : TypeToken<ArrayList<MockUpLocationData.StallData?>?>() {}.type
 
         val listData: ArrayList<MockUpLocationData.StallData> = gson.fromJson(json, type)
         if (listData.isNullOrEmpty()){

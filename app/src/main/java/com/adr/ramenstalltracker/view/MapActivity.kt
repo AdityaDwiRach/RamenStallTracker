@@ -81,8 +81,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, IMapActivityView {
                     newMarker.remove()
                     dialogInter.dismiss()
                 }
+                dialog.setOnCancelListener {
+                    newMarker.remove()
+                }
                 dialog.create().show()
-
             }
         }
     }

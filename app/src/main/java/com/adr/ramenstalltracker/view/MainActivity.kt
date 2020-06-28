@@ -16,6 +16,7 @@ import com.adr.ramenstalltracker.R
 import com.adr.ramenstalltracker.adapter.RVAdapterMain
 import com.adr.ramenstalltracker.model.MockUpLocationData
 import com.adr.ramenstalltracker.presenter.MainActivityPresenter
+import com.google.gson.Gson
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 
@@ -36,7 +37,14 @@ class MainActivity : AppCompatActivity(), IMainActivityView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter.onGetMockupData(this)
+        val shared = getSharedPreferences(SHARED_DATA, MODE_PRIVATE)
+        val json = shared.getString(MOCKUP_DATA, null)
+
+        if (json.isNullOrEmpty()){
+            presenter.onSaveMockupData(this, MockUpLocationData().getListMockupData())
+        } else {
+            presenter.onGetMockupData(this)
+        }
 
         recyclerView = findViewById(R.id.rv_main)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -108,5 +116,11 @@ class MainActivity : AppCompatActivity(), IMainActivityView {
     override fun onGetListFailed(error: String) {
         this.listData = ArrayList()
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onGetMockupData(this)
+        onUpdateListData(listData)
     }
 }
